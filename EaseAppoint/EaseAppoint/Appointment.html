@@ -281,11 +281,9 @@
     </form>
   </div>
 
-  <!-- Add these before closing body tag -->
   <script src="js/timeSlots.js"></script>
   <script src="js/timeslots_appoint.js"></script>
 
-  <!-- Add this script section before the closing body tag -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
         const appointmentForm = document.getElementById('appointmentForm');
@@ -304,7 +302,7 @@
                 return;
             }
 
-            // Create appointment object
+            
             const appointment = {
                 service: serviceType,
                 provider: provider,
@@ -313,36 +311,36 @@
                 status: 'upcoming'
             };
 
-            // Get existing appointments or initialize empty array
+          
             let appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
             
-            // Add new appointment
+            
             appointments.push(appointment);
             
-            // Save back to localStorage
-            localStorage.setItem('appointments', JSON.stringify(appointments));
             
-            // Set booking confirmation flag
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+
+
             localStorage.setItem('showBookingConfirmation', 'true');
             
-            // Redirect to dashboard
+            
             window.location.href = 'dashboard.html';
         });
 
-        // Time slot selection handler
+        
         document.getElementById('slotsContainer').addEventListener('click', function(e) {
             if (e.target.classList.contains('slot-button')) {
-                // Remove selected class from all slots
+
                 document.querySelectorAll('.slot-button').forEach(btn => {
                     btn.classList.remove('selected');
                 });
-                // Add selected class to clicked slot
+                
                 e.target.classList.add('selected');
             }
         });
     });
 
-    // Step navigation functions
+ 
     let currentStep = 1;
     const totalSteps = 4;
 
@@ -350,7 +348,6 @@
         const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
         document.getElementById('progress').style.width = `${progress}%`;
         
-        // Update step indicators
         for (let i = 1; i <= totalSteps; i++) {
             const step = document.getElementById(`step${i}`);
             if (i === currentStep) {
@@ -362,13 +359,13 @@
     }
 
     function showStep(step) {
-        // Hide all steps
+        
         document.getElementById('serviceStep').style.display = 'none';
         document.getElementById('locationStep').style.display = 'none';
         document.getElementById('providerStep').style.display = 'none';
         document.getElementById('timeStep').style.display = 'none';
         
-        // Show current step
+        
         switch(step) {
             case 1:
                 document.getElementById('serviceStep').style.display = 'block';
@@ -384,7 +381,7 @@
                 break;
         }
         
-        // Update buttons
+        
         document.getElementById('prevBtn').style.display = step === 1 ? 'none' : 'block';
         document.getElementById('nextBtn').style.display = step === totalSteps ? 'none' : 'block';
         document.getElementById('submitBtn').style.display = step === totalSteps ? 'block' : 'none';
@@ -406,7 +403,7 @@
         }
     }
 
-    // Initialize first step
+    
     showStep(1);
   </script>
 </body>

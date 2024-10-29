@@ -1,19 +1,19 @@
-// Add this at the beginning of your admin.js
+
 if (!isAdmin()) {
     alert('Unauthorized access. Redirecting to login page.');
     window.location.href = '../Loginpage.html';
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Check admin authentication
+    
     if (!isAdmin()) {
         window.location.href = '../Loginpage.html';
         return;
     }
 
-    // Initialize tabs
+    
     initializeTabs();
-    // Load initial data
+    
     loadDashboardData();
     loadServices();
     loadProviders();
@@ -21,14 +21,14 @@ document.addEventListener('DOMContentLoaded', function() {
     loadUsers();
 });
 
-// Admin Authentication
+
 function isAdmin() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const isAdminUser = localStorage.getItem('isAdmin') === 'true';
     return user.isAdmin === true && isAdminUser;
 }
 
-// Tab Navigation
+
 function initializeTabs() {
     const tabLinks = document.querySelectorAll('.nav-links li');
     tabLinks.forEach(tab => {
@@ -40,7 +40,7 @@ function initializeTabs() {
 }
 
 function switchTab(tabId) {
-    // Remove active class from all tabs and contents
+    
     document.querySelectorAll('.nav-links li').forEach(tab => tab.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
     
@@ -49,19 +49,16 @@ function switchTab(tabId) {
     document.getElementById(tabId).classList.add('active');
 }
 
-// Dashboard Data
 function loadDashboardData() {
     const users = JSON.parse(localStorage.getItem('users') || '[]');
     const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
     const providers = JSON.parse(localStorage.getItem('providers') || '[]');
 
-    // Update stats
     document.getElementById('totalUsers').textContent = users.length;
     document.getElementById('totalProviders').textContent = providers.length;
     document.getElementById('totalAppointments').textContent = appointments.length;
     document.getElementById('todayAppointments').textContent = getTodayAppointments(appointments);
 
-    // Load recent activity
     loadRecentActivity();
 }
 
@@ -70,7 +67,7 @@ function getTodayAppointments(appointments) {
     return appointments.filter(app => app.date === today).length;
 }
 
-// Services Management
+
 function loadServices() {
     const servicesList = document.getElementById('servicesList');
     const services = JSON.parse(localStorage.getItem('services') || '[]');
@@ -95,7 +92,6 @@ function closeModal(modalId) {
     document.getElementById(modalId).classList.remove('active');
 }
 
-// Providers Management
 function loadProviders() {
     const providersList = document.getElementById('providersList');
     const providers = JSON.parse(localStorage.getItem('providers') || '[]');
@@ -113,7 +109,6 @@ function loadProviders() {
     `).join('');
 }
 
-// Appointments Management
 function loadAppointments() {
     const appointmentsList = document.getElementById('appointmentsList');
     const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
@@ -134,7 +129,7 @@ function loadAppointments() {
     `).join('');
 }
 
-// Users Management
+
 function loadUsers() {
     const usersList = document.getElementById('usersList');
     const users = JSON.parse(localStorage.getItem('users') || '[]');
@@ -155,7 +150,7 @@ function loadUsers() {
     `).join('');
 }
 
-// Settings Management
+
 document.getElementById('settingsForm')?.addEventListener('submit', function(e) {
     e.preventDefault();
     const settings = {
@@ -167,7 +162,7 @@ document.getElementById('settingsForm')?.addEventListener('submit', function(e) 
     alert('Settings saved successfully!');
 });
 
-// Utility Functions
+
 function showError(message) {
     const errorDiv = document.createElement('div');
     errorDiv.className = 'error-message';
@@ -181,7 +176,7 @@ function handleLogout() {
     window.location.href = '../index.html';
 }
 
-// Recent Activity
+
 function loadRecentActivity() {
     const activityList = document.getElementById('activityList');
     const activities = JSON.parse(localStorage.getItem('adminActivity') || '[]');

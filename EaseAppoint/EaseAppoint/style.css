@@ -151,7 +151,6 @@ button:hover{
     background-color: rgb(62, 42, 142);
 }
 
-/* Update main content styles */
 .box {
     background: linear-gradient(to bottom, #000 80%, #f5f5f5);
     width: 100%;
@@ -233,7 +232,6 @@ span.hashtag {
     border-radius: 10px;
 }
 
-/* Responsive styles for main content */
 @media screen and (max-width: 1024px) {
     .content {
         padding: 0 20px;
@@ -293,10 +291,9 @@ span.hashtag {
     }
 }
 
-/* Footer Styles */
 footer {
     background-color: black;
-    padding: 1.5rem 2rem 0; /* Further reduced top padding */
+    padding: 1.5rem 2rem 0;
 }
 
 .footer-container {
@@ -305,7 +302,7 @@ footer {
     display: flex;
     justify-content: space-between;
     gap: 2rem;
-    padding-bottom: 1rem; /* Add padding at bottom */
+    padding-bottom: 1rem; 
 }
 
 .footer-content {
@@ -313,7 +310,7 @@ footer {
     min-width: 250px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center all content */
+    align-items: center; 
 }
 
 .footer-content h3 {
@@ -323,7 +320,7 @@ footer {
     text-align: center;
 }
 
-/* Contact section */
+
 .footer-content p {
     color: #999;
     margin: 0.2rem 0;
@@ -332,7 +329,7 @@ footer {
     text-align: center;
 }
 
-/* Quick Links section */
+
 .footer-content .list {
     list-style: none;
     padding: 0;
@@ -353,7 +350,6 @@ footer {
     color: rgb(62, 42, 142);
 }
 
-/* Social Icons section */
 .social-icons {
     display: flex;
     gap: 1rem;
@@ -367,8 +363,8 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px; /* Reduced size */
-    height: 32px; /* Reduced size */
+    width: 32px; 
+    height: 32px; 
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
@@ -384,7 +380,6 @@ footer {
     transform: translateY(-2px);
 }
 
-/* Bottom bar */
 .bottom-bar {
     margin-top: 1rem;
     padding: 0.8rem 0;
@@ -398,7 +393,6 @@ footer {
     font-size: 0.8rem;
 }
 
-/* Responsive Footer */
 @media screen and (max-width: 768px) {
     footer {
         padding: 1rem 1rem 0;
@@ -418,7 +412,6 @@ footer {
     }
 }
 
-/* Responsive styles */
 @media screen and (max-width: 768px) {
     header {
         position: relative;
@@ -485,14 +478,14 @@ footer {
     }
 }
 
-/* Add these new styles after your existing nav styles */
+
 
 nav ul li a {
     position: relative;
     transition: color 0.3s ease;
 }
 
-/* Hover Animation - Underline Effect */
+
 nav ul li a::after {
     content: '';
     position: absolute;
@@ -508,12 +501,12 @@ nav ul li a:hover::after {
     width: 100%;
 }
 
-/* Active Link Style */
+
 nav ul li a.active::after {
     width: 100%;
 }
 
-/* Logo animation */
+
 .logo {
     transition: transform 0.3s ease;
 }
@@ -522,7 +515,7 @@ nav ul li a.active::after {
     transform: scale(1.05);
 }
 
-/* Signup Button Animation */
+
 .signup {
     position: relative;
     overflow: hidden;
@@ -546,7 +539,7 @@ nav ul li a.active::after {
     height: 300px;
 }
 
-/* Add the Services and Testimonials sections styles */
+
 .services-section {
     background: linear-gradient(to bottom, #000 0%, #f5f5f5 30%);
     padding: 6rem 2rem;
@@ -637,9 +630,6 @@ nav ul li a.active::after {
     object-fit: cover;
 }
 
-/* Add these new styles after your existing styles */
-
-/* Services and Testimonials Sections */
 .services-section, .testimonials-section {
     padding: 4rem 2rem;
     background: #fff;
@@ -689,7 +679,6 @@ nav ul li a.active::after {
     line-height: 1.6;
 }
 
-/* Testimonials specific styles */
 .testimonial-card {
     background: #f9f9f9;
     padding: 2rem;
@@ -733,7 +722,7 @@ nav ul li a.active::after {
     font-size: 0.9rem;
 }
 
-/* Responsive adjustments */
+
 @media screen and (max-width: 768px) {
     .services-section, .testimonials-section {
         padding: 2rem 1rem;
@@ -748,12 +737,11 @@ nav ul li a.active::after {
     }
 }
 
-/* Add smooth scroll behavior */
+
 html {
     scroll-behavior: smooth;
 }
 
-/* Add scroll-based animations */
 .service-card, .testimonial-card {
     opacity: 0;
     transform: translateY(20px);
@@ -765,9 +753,6 @@ html {
     transform: translateY(0);
 }
 
-/* Add this animation script to your script.js */
-
-/* Add a subtle texture overlay to the sections */
 .services-section::before,
 .testimonials-section::before {
     content: '';

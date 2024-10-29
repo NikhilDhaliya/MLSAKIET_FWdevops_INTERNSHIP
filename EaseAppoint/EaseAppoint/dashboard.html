@@ -7,7 +7,7 @@
     <title>Dashboard - EaseAppoint</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
-        /* Add modern styles */
+       
         :root {
             --primary-color: #3c00a0;
             --secondary-color: #4a00c2;
@@ -34,7 +34,6 @@
             min-height: 100vh;
         }
 
-        /* Modern Sidebar */
         .sidebar {
             width: 280px;
             background: var(--white);
@@ -57,17 +56,15 @@
             width: 45px;
             height: 45px;
             object-fit: contain;
-            /* Changed from cover to contain */
+           
             border-radius: 10px;
             background: #000;
-            /* Added black background for the logo */
             padding: 5px;
-            /* Added padding around the logo */
+            
         }
 
         .sidebar-header h2 {
             color: var(--primary-color);
-            /* Changed text color to match theme */
             font-size: 1.5rem;
             font-weight: 600;
         }
@@ -101,8 +98,6 @@
             margin-right: 1rem;
             font-size: 1.2rem;
         }
-
-        /* Main Content */
         .main-content {
             flex: 1;
             padding: 2rem;
@@ -136,7 +131,7 @@
             color: #666;
         }
 
-        /* Stats Grid */
+        
         .stats-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -168,7 +163,7 @@
             color: var(--primary-color);
         }
 
-        /* Appointments Section */
+        
         .appointments-section {
             background: var(--white);
             padding: 2rem;
@@ -201,7 +196,7 @@
             transform: translateY(-2px);
         }
 
-        /* Table Styles */
+        
         .appointments-table {
             width: 100%;
             border-collapse: separate;
@@ -239,7 +234,7 @@
             color: #2e7d32;
         }
 
-        /* Action Buttons */
+        
         .cancel-btn,
         .rate-btn {
             padding: 0.5rem 1rem;
@@ -271,7 +266,7 @@
             background: #ffc400;
         }
 
-        /* Responsive Design */
+        
         @media (max-width: 1024px) {
             .sidebar {
                 width: 250px;
@@ -302,8 +297,6 @@
                 text-align: center;
             }
         }
-
-        /* Profile Section Styles */
         .profile-section {
             background: var(--white);
             padding: 2rem;
@@ -366,7 +359,6 @@
             outline: none;
         }
 
-        /* History Section Styles */
         .history-section {
             background: var(--white);
             padding: 2rem;
@@ -422,8 +414,6 @@
             color: #ffd700;
             font-size: 1.2rem;
         }
-
-        /* Settings Section Styles */
         .settings-section {
             background: var(--white);
             padding: 2rem;
@@ -465,7 +455,6 @@
             margin-top: 0.5rem;
         }
 
-        /* Switch Toggle Styles */
         .switch {
             position: relative;
             display: inline-block;
@@ -511,7 +500,6 @@
             transform: translateX(26px);
         }
 
-        /* Save and Danger Buttons */
         .save-btn {
             background: var(--primary-color);
             color: white;
@@ -546,7 +534,7 @@
         }
     </style>
     <script>
-        // Check authentication before page loads
+       
         if (localStorage.getItem('isLoggedIn') !== 'true') {
             window.location.href = 'Loginpage.html';
         }
@@ -555,7 +543,7 @@
 
 <body>
     <div class="dashboard-container">
-        <!-- Sidebar -->
+        
         <div class="sidebar">
             <div class="sidebar-header">
                 <img src="logo.png" alt="Logo">
@@ -573,7 +561,7 @@
             </button>
         </div>
 
-        <!-- Main Content -->
+        
         <div class="main-content">
             <div class="welcome-section">
                 <h1>Welcome Back, <span id="userName">User</span>!</h1>
@@ -614,14 +602,12 @@
                         </tr>
                     </thead>
                     <tbody id="appointmentsTableBody">
-                        <!-- Appointments will be populated here -->
+                        
                     </tbody>
                 </table>
             </div>
 
-            <!-- Add these new sections after your existing appointments section -->
-
-            <!-- History Section -->
+           
             <div class="history-section" style="display: none;">
                 <div class="section-header">
                     <h2>Appointment History</h2>
@@ -634,11 +620,10 @@
                     </div>
                 </div>
                 <div class="history-list">
-                    <!-- History items will be populated here -->
+                   
                 </div>
             </div>
 
-            <!-- Profile Section -->
             <div class="profile-section" style="display: none;">
                 <div class="profile-card">
                     <div class="profile-header">
@@ -677,7 +662,7 @@
                 </div>
             </div>
 
-            <!-- Settings Section -->
+           
             <div class="settings-section" style="display: none;">
                 <div class="settings-card">
                     <h2>Account Settings</h2>
@@ -726,18 +711,17 @@
                 </div>
             </div>
 
-            <!-- Notification Center -->
             <div class="notification-center">
                 <div class="notification-header">
                     <h3>Notifications</h3>
                     <button class="clear-all">Clear All</button>
                 </div>
                 <div class="notification-list" id="notificationList">
-                    <!-- Notifications will be added here -->
+                    
                 </div>
             </div>
 
-            <!-- Add Chart.js for statistics -->
+           
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         </div>
     </div>
@@ -745,11 +729,10 @@
     <script>
 
         document.addEventListener('DOMContentLoaded', function () {
-            // Get user info
+           
             const user = JSON.parse(localStorage.getItem('user') || '{}');
             document.getElementById('userName').textContent = user.name || 'User';
 
-            // Load appointments
             loadAppointments();
         });
 
@@ -763,7 +746,7 @@
             let upcoming = 0;
             let completed = 0;
 
-            // Clear existing rows
+           
             tableBody.innerHTML = '';
 
             appointments.forEach((appointment, index) => {
@@ -798,7 +781,7 @@
                 tableBody.appendChild(row);
             });
 
-            // Update stats
+           
             upcomingCount.textContent = upcoming;
             completedCount.textContent = completed;
             totalCount.textContent = appointments.length;
@@ -810,19 +793,19 @@
             window.location.href = 'index.html';
         }
 
-        // Add the cancel appointment function
+       
         async function cancelAppointment(index) {
             const confirmed = await confirmAction('Are you sure you want to cancel this appointment?');
             if (confirmed) {
                 const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
-                appointments.splice(index, 1); // Remove the appointment at the specified index
+                appointments.splice(index, 1); 
                 localStorage.setItem('appointments', JSON.stringify(appointments));
-                loadAppointments(); // Refresh the table
+                loadAppointments(); 
                 showError('Appointment cancelled successfully');
             }
         }
 
-        // Add the rate appointment function
+        
         function rateAppointment(index) {
             const rating = prompt('Rate your appointment (1-5 stars):');
             if (rating && !isNaN(rating) && rating >= 1 && rating <= 5) {
@@ -836,7 +819,6 @@
             }
         }
     </script>
-    <!-- Add these before closing body tag -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="js/dashboard.js"></script>
 </body>

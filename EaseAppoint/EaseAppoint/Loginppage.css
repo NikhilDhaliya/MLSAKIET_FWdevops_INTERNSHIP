@@ -144,7 +144,7 @@ form p a:hover {
     transition: max-height 0.3s ease-in-out;
 }
 
-/* Error message styling */
+
 .error-message {
     color: #ff3333;
     font-size: 14px;
@@ -154,7 +154,7 @@ form p a:hover {
     padding-left: 15px;
 }
 
-/* Success message styling */
+
 .success-message {
     color: #00aa00;
     font-size: 14px;
@@ -163,7 +163,6 @@ form p a:hover {
     text-align: center;
 }
 
-/* Loading animation */
 .loading {
     display: none;
     width: 20px;
@@ -180,7 +179,6 @@ form p a:hover {
     100% { transform: rotate(360deg); }
 }
 
-/* Divider styles */
 .divider {
     display: flex;
     align-items: center;
@@ -201,7 +199,6 @@ form p a:hover {
     font-size: 14px;
 }
 
-/* Google Sign-In Button Styles */
 .google-btn-container {
     margin-top: 20px;
     width: 100%;
@@ -218,7 +215,7 @@ form p a:hover {
     margin: 0 auto;
 }
 
-/* Add some space between divider and Google button */
+
 .divider {
     margin: 25px 0;
 }

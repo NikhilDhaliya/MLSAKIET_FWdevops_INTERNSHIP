@@ -1,13 +1,13 @@
-// Initialize EmailJS with your public key
+
 (function() {
     emailjs.init("V9G2uJwD3DM0lMRVQ");
 })();
 
-// Add these constants at the top
+
 const OTP_VALIDITY_MINUTES = 10;
 const OTP_LENGTH = 6;
 
-// Add these variables in global scope
+
 let currentEmail = '';
 let generatedOTP = '';
 let otpExpiration = null;
@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const otpForm = document.getElementById('otpForm');
     const newPasswordForm = document.getElementById('newPasswordForm');
 
-    // Handle Send OTP
     document.getElementById('forgotPasswordForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const email = document.getElementById('email').value;

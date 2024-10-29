@@ -24,7 +24,6 @@ const timeSlotData = {
     }
 };
 
-// Generate time slots for next 7 days
 function generateTimeSlots() {
     const today = new Date();
     
@@ -33,13 +32,12 @@ function generateTimeSlots() {
             for (let provider in timeSlotData[service][city]) {
                 timeSlotData[service][city][provider] = {};
                 
-                // Generate slots for next 7 days
                 for (let i = 0; i < 7; i++) {
                     const date = new Date(today);
                     date.setDate(today.getDate() + i);
                     const dateString = date.toISOString().split('T')[0];
                     
-                    // Generate slots from 9 AM to 5 PM
+                    
                     timeSlotData[service][city][provider][dateString] = {};
                     for (let hour = 9; hour <= 17; hour++) {
                         const timeString = `${hour.toString().padStart(2, '0')}:00`;
@@ -52,12 +50,11 @@ function generateTimeSlots() {
             }
         }
     }
-    
-    // Save to localStorage
+   
     localStorage.setItem('timeSlots', JSON.stringify(timeSlotData));
 }
 
-// Get available slots for a specific provider on a specific date
+
 function getAvailableSlots(service, city, provider, date) {
     const slots = JSON.parse(localStorage.getItem('timeSlots') || '{}');
     if (!slots[service]?.[city]?.[provider]?.[date]) return [];
@@ -67,7 +64,6 @@ function getAvailableSlots(service, city, provider, date) {
         .map(([time]) => time);
 }
 
-// Book a slot
 function bookSlot(service, city, provider, date, time, userId) {
     const slots = JSON.parse(localStorage.getItem('timeSlots') || '{}');
     
@@ -88,7 +84,6 @@ function bookSlot(service, city, provider, date, time, userId) {
     return true;
 }
 
-// Initialize time slots if not exists
 if (!localStorage.getItem('timeSlots')) {
     generateTimeSlots();
 }

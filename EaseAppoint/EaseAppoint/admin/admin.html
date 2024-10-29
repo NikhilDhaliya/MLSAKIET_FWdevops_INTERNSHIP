@@ -9,13 +9,13 @@
 </head>
 <body>
     <script>
-        // Check for admin authentication
+        
         if (localStorage.getItem('isAdmin') !== 'true') {
             window.location.href = '../Loginpage.html';
         }
     </script>
     <div class="admin-container">
-        <!-- Sidebar -->
+        
         <div class="sidebar">
             <div class="sidebar-header">
                 <img src="../logo.png" alt="Logo">
@@ -46,9 +46,9 @@
             </button>
         </div>
 
-        <!-- Main Content -->
+        
         <div class="main-content">
-            <!-- Dashboard Tab -->
+            
             <div class="tab-content active" id="dashboard">
                 <h1>Admin Dashboard</h1>
                 <div class="stats-container">
@@ -73,34 +73,34 @@
                 <div class="recent-activity">
                     <h2>Recent Activity</h2>
                     <div class="activity-list" id="activityList">
-                        <!-- Activity items will be populated here -->
+                        
                     </div>
                 </div>
             </div>
 
-            <!-- Services Tab -->
+            
             <div class="tab-content" id="services">
                 <h1>Manage Services</h1>
                 <button class="add-btn" onclick="showAddServiceModal()">
                     <i class="fas fa-plus"></i> Add New Service
                 </button>
                 <div class="services-list" id="servicesList">
-                    <!-- Services will be populated here -->
+                    
                 </div>
             </div>
 
-            <!-- Providers Tab -->
+           
             <div class="tab-content" id="providers">
                 <h1>Manage Providers</h1>
                 <button class="add-btn" onclick="showAddProviderModal()">
                     <i class="fas fa-plus"></i> Add New Provider
                 </button>
                 <div class="providers-list" id="providersList">
-                    <!-- Providers will be populated here -->
+                    
                 </div>
             </div>
 
-            <!-- Appointments Tab -->
+            
             <div class="tab-content" id="appointments">
                 <h1>Manage Appointments</h1>
                 <div class="filter-section">
@@ -110,19 +110,19 @@
                     </select>
                 </div>
                 <div class="appointments-list" id="appointmentsList">
-                    <!-- Appointments will be populated here -->
+                   
                 </div>
             </div>
 
-            <!-- Users Tab -->
+            
             <div class="tab-content" id="users">
                 <h1>Manage Users</h1>
                 <div class="users-list" id="usersList">
-                    <!-- Users will be populated here -->
+                
                 </div>
             </div>
 
-            <!-- Settings Tab -->
+            
             <div class="tab-content" id="settings">
                 <h1>Admin Settings</h1>
                 <div class="settings-form">
@@ -147,7 +147,7 @@
         </div>
     </div>
 
-    <!-- Add Service Modal -->
+    
     <div class="modal" id="addServiceModal">
         <div class="modal-content">
             <h2>Add New Service</h2>
@@ -176,7 +176,7 @@
         </div>
     </div>
 
-    <!-- Add Provider Modal -->
+    
     <div class="modal" id="addProviderModal">
         <div class="modal-content">
             <h2>Add New Provider</h2>
@@ -196,7 +196,7 @@
                 <div class="form-group">
                     <label>Location</label>
                     <select id="providerLocation" required>
-                        <!-- Locations will be populated dynamically -->
+                        
                     </select>
                 </div>
                 <div class="form-group">

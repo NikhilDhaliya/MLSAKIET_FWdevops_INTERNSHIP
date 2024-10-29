@@ -1,9 +1,9 @@
-// Initialize EmailJS
+
 (function() {
     emailjs.init("V9G2uJwD3DM0lMRVQ");
 })();
 
-// Email notification function for booking confirmation
+// Email notification function for booking confirmation _ Error check afterwords..
 async function sendBookingConfirmation(appointment) {
     const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
     
@@ -18,8 +18,8 @@ async function sendBookingConfirmation(appointment) {
 
     try {
         const response = await emailjs.send(
-            'service_xoc0o6b',    // Your service ID
-            'template_ynf6vyf',   // Your template ID for booking confirmation
+            'service_xoc0o6b',    // THis is  service ID
+            'template_ynf6vyf',   // This is the template ID for booking confirmation
             templateParams
         );
         console.log('Booking confirmation email sent:', response);
@@ -30,7 +30,7 @@ async function sendBookingConfirmation(appointment) {
     }
 }
 
-// Utility function to format date
+
 function formatDate(dateString) {
     const options = { 
         weekday: 'long', 
@@ -41,7 +41,7 @@ function formatDate(dateString) {
     return new Date(dateString).toLocaleDateString('en-US', options);
 }
 
-// Update cancelAppointment function (without email)
+
 async function cancelAppointment(index) {
     const confirmed = await confirmAction('Are you sure you want to cancel this appointment?');
     if (confirmed) {
@@ -59,7 +59,7 @@ async function cancelAppointment(index) {
     }
 }
 
-// Utility functions
+
 function showNotification(message, type = 'success') {
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
@@ -82,9 +82,9 @@ function handleLogout() {
     window.location.href = 'index.html';
 }
 
-// Load appointments and initialize dashboard
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize components
+    
     initializeDashboard();
     setupNavigationHandlers();
     loadUserProfile();
@@ -94,57 +94,48 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeDashboard() {
-    // Check authentication
     if (!localStorage.getItem('isLoggedIn')) {
         window.location.href = 'Loginpage.html';
         return;
     }
 
-    // Load user info
     const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
     document.getElementById('userName').textContent = user.name || 'User';
 
-    // Show dashboard section by default
     showSection('dashboard');
 }
 
 function setupNavigationHandlers() {
-    // Add click handlers to navigation links
     document.querySelectorAll('.nav-links a').forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             
-            // Get section name from text content
+            
             let sectionName = this.textContent.toLowerCase().trim();
             if (sectionName === 'book appointment') {
                 window.location.href = 'Appointment.html';
                 return;
             }
-            
-            // Remove active class from all links
             document.querySelectorAll('.nav-links a').forEach(l => {
                 l.classList.remove('active');
             });
             
-            // Add active class to clicked link
+            
             this.classList.add('active');
             
-            // Show corresponding section
+            
             showSection(sectionName);
         });
     });
 
-    // Add event listener for profile form submission
     document.getElementById('profileForm')?.addEventListener('submit', handleProfileUpdate);
 
-    // Add event listeners for settings changes
     document.querySelectorAll('.settings-section input[type="checkbox"]')?.forEach(checkbox => {
         checkbox.addEventListener('change', saveSettings);
     });
 }
 
 function showSection(sectionName) {
-    // Hide all sections first
     const sections = [
         '.welcome-section',
         '.stats-container',
@@ -161,7 +152,6 @@ function showSection(sectionName) {
         }
     });
 
-    // Show selected section
     switch(sectionName) {
         case 'dashboard':
             document.querySelector('.welcome-section').style.display = 'flex';
@@ -187,11 +177,9 @@ function showSection(sectionName) {
 function loadUserProfile() {
     const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
     
-    // Update profile display
+
     document.getElementById('profileName').textContent = user.name || 'User';
     document.getElementById('profileEmail').textContent = user.email || '';
-    
-    // Update form fields
     document.getElementById('fullName').value = user.name || '';
     document.getElementById('phone').value = user.phone || '';
     document.getElementById('location').value = user.location || '';
@@ -224,8 +212,6 @@ async function handleProfileUpdate(e) {
 
 function loadSettings() {
     const settings = JSON.parse(localStorage.getItem('userSettings') || '{}');
-    
-    // Update settings toggles
     document.getElementById('emailNotifications').checked = settings.emailNotifications !== false;
     document.getElementById('reminderAlerts').checked = settings.reminderAlerts !== false;
     document.getElementById('profileVisibility').checked = settings.profileVisibility === true;
@@ -255,12 +241,12 @@ function showNotification(message, type = 'success') {
     setTimeout(() => notification.remove(), 3000);
 }
 
-// Make functions available globally
+
 window.handleLogout = handleLogout;
 window.cancelAppointment = cancelAppointment;
 window.rateAppointment = rateAppointment;
 
-// Update loadAppointments function to send email for new bookings
+
 function loadAppointments() {
     const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
     const tableBody = document.getElementById('appointmentsTableBody');
@@ -271,19 +257,16 @@ function loadAppointments() {
     let upcoming = 0;
     let completed = 0;
 
-    // Check for new appointments and send confirmation emails
     const newAppointments = appointments.filter(app => !app.emailSent);
     newAppointments.forEach(async (appointment) => {
         await sendBookingConfirmation(appointment);
         appointment.emailSent = true;
     });
     
-    // Save the updated appointments with emailSent flag
     if (newAppointments.length > 0) {
         localStorage.setItem('appointments', JSON.stringify(appointments));
     }
 
-    // Clear existing rows
     tableBody.innerHTML = '';
 
     appointments.forEach((appointment, index) => {
@@ -318,7 +301,6 @@ function loadAppointments() {
         tableBody.appendChild(row);
     });
 
-    // Update stats
     upcomingCount.textContent = upcoming;
     completedCount.textContent = completed;
     totalCount.textContent = appointments.length;

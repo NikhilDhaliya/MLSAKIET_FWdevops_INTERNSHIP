@@ -7,7 +7,6 @@ function showError(message) {
     setTimeout(() => errorDiv.remove(), 3000);
 }
 
-// Loading state
 function showLoading(element) {
     const loadingSpinner = document.createElement('div');
     loadingSpinner.className = 'loading-spinner';
@@ -15,7 +14,6 @@ function showLoading(element) {
     return loadingSpinner;
 }
 
-// Confirmation dialog
 function confirmAction(message) {
     return new Promise((resolve) => {
         const confirmed = window.confirm(message);
@@ -23,7 +21,6 @@ function confirmAction(message) {
     });
 }
 
-// Date formatting
 function formatDate(date) {
     return new Date(date).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -32,7 +29,6 @@ function formatDate(date) {
     });
 }
 
-// Appointment validation
 function validateAppointment(data) {
     const errors = [];
     if (!data.service) errors.push('Please select a service');

@@ -1,7 +1,6 @@
 let currentStep = 1;
 const totalSteps = 4;
 
-// Sample data - In a real app, this would come from a backend
 const states = ['Maharashtra', 'Karnataka', 'Tamil Nadu', 'Delhi'];
 const cities = {
     'Maharashtra': ['Mumbai', 'Pune', 'Nagpur'],
@@ -35,7 +34,6 @@ const providers = {
     }
 };
 
-// Initialize the form
 document.addEventListener('DOMContentLoaded', function() {
     initializeStateSelect();
     updateProgress();
@@ -148,7 +146,6 @@ function updateProgress() {
     const percentage = ((currentStep - 1) / (totalSteps - 1)) * 100;
     progress.style.width = `${percentage}%`;
 
-    // Update step indicators
     for (let i = 1; i <= totalSteps; i++) {
         const step = document.getElementById(`step${i}`);
         if (i === currentStep) {
@@ -166,7 +163,7 @@ function showStep(step) {
     document.getElementById('providerStep').style.display = 'none';
     document.getElementById('timeStep').style.display = 'none';
 
-    // Show current step
+
     switch(step) {
         case 1:
             document.getElementById('serviceStep').style.display = 'block';
@@ -182,7 +179,6 @@ function showStep(step) {
             break;
     }
 
-    // Update navigation buttons
     document.getElementById('prevBtn').style.display = step === 1 ? 'none' : 'block';
     document.getElementById('nextBtn').style.display = step === totalSteps ? 'none' : 'block';
     document.getElementById('submitBtn').style.display = step === totalSteps ? 'block' : 'none';
@@ -219,7 +215,7 @@ function setupFormSubmission() {
         };
 
         try {
-            // Book the time slot
+
             const booked = await bookSlot(
                 appointment.service,
                 appointment.city,
@@ -230,7 +226,7 @@ function setupFormSubmission() {
             );
 
             if (booked) {
-                // Save appointment
+                
                 const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
                 appointments.push(appointment);
                 localStorage.setItem('appointments', JSON.stringify(appointments));
