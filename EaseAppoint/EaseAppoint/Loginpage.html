@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - EaseAppoint</title>
+    <link rel="stylesheet" href="Loginppage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <!-- Add Google client library -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-box">
+            <h1 id="title">Sign Up</h1>
+            <form id="authForm" novalidate>
+                <div class="input-group">
+                    <div class="input-field" id="nameField">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="name" placeholder="Full Name" 
+                               pattern="[A-Za-z ]{2,50}" required>
+                        <div class="error-message" id="nameError"></div>
+                    </div>
+
+                    <div class="input-field">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="email" placeholder="Email Address" required>
+                        <div class="error-message" id="emailError"></div>
+                    </div>
+
+                    <div class="input-field">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password" 
+                               placeholder="Password" 
+                               pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" required>
+                        <div class="error-message" id="passwordError"></div>
+                    </div>
+                    
+                    <p>Forgot password? <a href="#" id="forgotPassword">Click here!</a></p>
+                    <div class="success-message" id="successMessage"></div>
+                </div>
+                
+                <div class="btn-field">
+                    <button type="button" id="signupBtn">
+                        <span>Sign Up</span>
+                        <div class="loading"></div>
+                    </button>
+                    <button type="button" id="signinBtn" class="disable">
+                        <span>Sign In</span>
+                        <div class="loading"></div>
+                    </button>
+                </div>
+
+                <!-- Add divider -->
+                <div class="divider">
+                    <span>or</span>
+                </div>
+
+                <!-- Add Google Sign-in button -->
+                <div class="google-btn-container">
+                    <div id="g_id_onload"
+                         data-client_id="455841850588-6kar9pi00379op2p7oo7qtjvkpdm7sbc.apps.googleusercontent.com"
+                         data-context="signin"
+                         data-callback="handleGoogleSignIn"
+                         data-auto_prompt="false">
+                    </div>
+                    <div class="g_id_signin"
+                         data-type="standard"
+                         data-size="large"
+                         data-theme="outline"
+                         data-text="sign_in_with"
+                         data-shape="rectangular"
+                         data-logo_alignment="left"
+                         data-width="300">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="login.js"></script>
+</body>
+
+</html>

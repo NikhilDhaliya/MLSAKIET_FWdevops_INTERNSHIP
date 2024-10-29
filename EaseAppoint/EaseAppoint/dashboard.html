@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - EaseAppoint</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        /* Add modern styles */
+        :root {
+            --primary-color: #3c00a0;
+            --secondary-color: #4a00c2;
+            --text-color: #333;
+            --bg-color: #f5f7fb;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg-color);
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Modern Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--white);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-header img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            /* Changed from cover to contain */
+            border-radius: 10px;
+            background: #000;
+            /* Added black background for the logo */
+            padding: 5px;
+            /* Added padding around the logo */
+        }
+
+        .sidebar-header h2 {
+            color: var(--primary-color);
+            /* Changed text color to match theme */
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .nav-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .nav-links i {
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .welcome-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .welcome-text h1 {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .welcome-text p {
+            color: #666;
+        }
+
+        .date-time {
+            text-align: right;
+            color: #666;
+        }
+
+        /* Stats Grid */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* Appointments Section */
+        .appointments-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .appointments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .book-btn {
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .book-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Table Styles */
+        .appointments-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 0.5rem;
+        }
+
+        .appointments-table th {
+            background: #f8f9fa;
+            padding: 1rem;
+            text-align: left;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .appointments-table td {
+            padding: 1rem;
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-upcoming {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status-completed {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        /* Action Buttons */
+        .cancel-btn,
+        .rate-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-btn {
+            background: #ff3d57;
+            color: var(--white);
+        }
+
+        .cancel-btn:hover {
+            background: #ff1f3d;
+        }
+
+        .rate-btn {
+            background: #ffd700;
+            color: #333;
+        }
+
+        .rate-btn:hover {
+            background: #ffc400;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 1rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .welcome-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .date-time {
+                text-align: center;
+            }
+        }
+
+        /* Profile Section Styles */
+        .profile-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+        }
+
+        .profile-card {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .profile-avatar i {
+            font-size: 3.5rem;
+            color: var(--white);
+        }
+
+        .profile-info .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-info label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .profile-info input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .profile-info input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(60, 0, 160, 0.1);
+            outline: none;
+        }
+
+        /* History Section Styles */
+        .history-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .filter-controls select {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .history-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            transition: transform 0.3s ease;
+        }
+
+        .history-item:hover {
+            transform: translateX(5px);
+        }
+
+        .history-date {
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .history-details {
+            flex: 1;
+            margin: 0 1rem;
+        }
+
+        .history-rating {
+            color: #ffd700;
+            font-size: 1.2rem;
+        }
+
+        /* Settings Section Styles */
+        .settings-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+        }
+
+        .settings-card {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .settings-group {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .settings-group h3 {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .setting-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .switch-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .setting-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        /* Switch Toggle Styles */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Save and Danger Buttons */
+        .save-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .save-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .danger-btn {
+            background: #ff3d57;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .danger-btn:hover {
+            background: #ff1f3d;
+        }
+    </style>
+    <script>
+        // Check authentication before page loads
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'Loginpage.html';
+        }
+    </script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <img src="logo.png" alt="Logo">
+                <h2>EaseAppoint</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#"><i class="fas fa-home"></i>Dashboard</a></li>
+                <li><a href="Appointment.html"><i class="fas fa-calendar-plus"></i>Book Appointment</a></li>
+                <li><a href="#"><i class="fas fa-history"></i>History</a></li>
+                <li><a href="#"><i class="fas fa-user"></i>Profile</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i>Settings</a></li>
+            </ul>
+            <button class="logout-btn" onclick="handleLogout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="welcome-section">
+                <h1>Welcome Back, <span id="userName">User</span>!</h1>
+                <p>Here's an overview of your appointments</p>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Upcoming Appointments</h3>
+                    <div class="number" id="upcomingCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Completed Appointments</h3>
+                    <div class="number" id="completedCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Bookings</h3>
+                    <div class="number" id="totalCount">0</div>
+                </div>
+            </div>
+
+            <div class="appointments-section">
+                <div class="appointments-header">
+                    <h2>Recent Appointments</h2>
+                    <button class="book-btn" onclick="location.href='Appointment.html'">
+                        <i class="fas fa-plus"></i> Book New
+                    </button>
+                </div>
+                <table class="appointments-table">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Place</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="appointmentsTableBody">
+                        <!-- Appointments will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Add these new sections after your existing appointments section -->
+
+            <!-- History Section -->
+            <div class="history-section" style="display: none;">
+                <div class="section-header">
+                    <h2>Appointment History</h2>
+                    <div class="filter-controls">
+                        <select id="historyFilter">
+                            <option value="all">All Appointments</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="history-list">
+                    <!-- History items will be populated here -->
+                </div>
+            </div>
+
+            <!-- Profile Section -->
+            <div class="profile-section" style="display: none;">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <h2 id="profileName">User Name</h2>
+                        <p id="profileEmail">user@email.com</p>
+                    </div>
+                    <div class="profile-info">
+                        <form id="profileForm">
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" id="fullName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" id="phone" pattern="[0-9]{10}">
+                            </div>
+                            <div class="form-group">
+                                <label>Preferred Location</label>
+                                <input type="text" id="location">
+                            </div>
+                            <div class="form-group">
+                                <label>Email Preferences</label>
+                                <div class="checkbox-group">
+                                    <label>
+                                        <input type="checkbox" id="emailNotifications" checked>
+                                        Receive appointment reminders
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="save-btn">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="settings-section" style="display: none;">
+                <div class="settings-card">
+                    <h2>Account Settings</h2>
+                    <div class="settings-group">
+                        <h3>Notifications</h3>
+                        <div class="setting-item">
+                            <label class="switch-label">
+                                Email Notifications
+                                <label class="switch">
+                                    <input type="checkbox" id="emailNotifications" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </label>
+                            <p class="setting-description">Receive email notifications for appointments</p>
+                        </div>
+                        <div class="setting-item">
+                            <label class="switch-label">
+                                Reminder Alerts
+                                <label class="switch">
+                                    <input type="checkbox" id="reminderAlerts" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </label>
+                            <p class="setting-description">Get reminders before appointments</p>
+                        </div>
+                    </div>
+                    <div class="settings-group">
+                        <h3>Privacy</h3>
+                        <div class="setting-item">
+                            <label class="switch-label">
+                                Profile Visibility
+                                <label class="switch">
+                                    <input type="checkbox" id="profileVisibility">
+                                    <span class="slider round"></span>
+                                </label>
+                            </label>
+                            <p class="setting-description">Make your profile visible to service providers</p>
+                        </div>
+                    </div>
+                    <div class="settings-group">
+                        <h3>Account Actions</h3>
+                        <button class="danger-btn" onclick="handleDeleteAccount()">
+                            <i class="fas fa-trash"></i> Delete Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification Center -->
+            <div class="notification-center">
+                <div class="notification-header">
+                    <h3>Notifications</h3>
+                    <button class="clear-all">Clear All</button>
+                </div>
+                <div class="notification-list" id="notificationList">
+                    <!-- Notifications will be added here -->
+                </div>
+            </div>
+
+            <!-- Add Chart.js for statistics -->
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        </div>
+    </div>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get user info
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            document.getElementById('userName').textContent = user.name || 'User';
+
+            // Load appointments
+            loadAppointments();
+        });
+
+        function loadAppointments() {
+            const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+            const tableBody = document.getElementById('appointmentsTableBody');
+            const upcomingCount = document.getElementById('upcomingCount');
+            const completedCount = document.getElementById('completedCount');
+            const totalCount = document.getElementById('totalCount');
+
+            let upcoming = 0;
+            let completed = 0;
+
+            // Clear existing rows
+            tableBody.innerHTML = '';
+
+            appointments.forEach((appointment, index) => {
+                const row = document.createElement('tr');
+                const appointmentDate = new Date(appointment.date);
+                const today = new Date();
+                const status = appointmentDate < today ? 'completed' : 'upcoming';
+
+                if (status === 'upcoming') upcoming++;
+                else completed++;
+
+                row.innerHTML = `
+                    <td>${appointment.service}</td>
+                    <td>${appointment.provider}</td>
+                    <td>${appointment.date}</td>
+                    <td>${appointment.time}</td>
+                    <td><span class="status-badge status-${status}">
+                        ${status.charAt(0).toUpperCase() + status.slice(1)}
+                    </span></td>
+                    <td>
+                        ${status === 'upcoming' ? `
+                            <button class="cancel-btn" onclick="cancelAppointment(${index})">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                        ` : `
+                            <button class="rate-btn" onclick="rateAppointment(${index})">
+                                <i class="fas fa-star"></i> Rate
+                            </button>
+                        `}
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            // Update stats
+            upcomingCount.textContent = upcoming;
+            completedCount.textContent = completed;
+            totalCount.textContent = appointments.length;
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('user');
+            window.location.href = 'index.html';
+        }
+
+        // Add the cancel appointment function
+        async function cancelAppointment(index) {
+            const confirmed = await confirmAction('Are you sure you want to cancel this appointment?');
+            if (confirmed) {
+                const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+                appointments.splice(index, 1); // Remove the appointment at the specified index
+                localStorage.setItem('appointments', JSON.stringify(appointments));
+                loadAppointments(); // Refresh the table
+                showError('Appointment cancelled successfully');
+            }
+        }
+
+        // Add the rate appointment function
+        function rateAppointment(index) {
+            const rating = prompt('Rate your appointment (1-5 stars):');
+            if (rating && !isNaN(rating) && rating >= 1 && rating <= 5) {
+                const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+                appointments[index].rating = Number(rating);
+                localStorage.setItem('appointments', JSON.stringify(appointments));
+                loadAppointments();
+                showError('Rating submitted successfully');
+            } else if (rating !== null) {
+                showError('Please enter a valid rating between 1 and 5');
+            }
+        }
+    </script>
+    <!-- Add these before closing body tag -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

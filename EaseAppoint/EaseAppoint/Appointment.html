@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment - EaseAppoint</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    .appointment-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .appointment-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .appointment-header h1 {
+      color: #333;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #555;
+      font-weight: 500;
+    }
+
+    .form-group select, 
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-group select:focus,
+    .form-group input:focus {
+      border-color: #3c00a0;
+      outline: none;
+    }
+
+    .slots-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .slot-button {
+      padding: 0.8rem;
+      background: #f5f5f5;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .slot-button:hover {
+      background: #3c00a0;
+      color: white;
+    }
+
+    .slot-button.selected {
+      background: #3c00a0;
+      color: white;
+    }
+
+    .book-appointment-btn {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      background: #3c00a0;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 2rem;
+    }
+
+    .book-appointment-btn:hover {
+      background: #2a0070;
+    }
+
+    .error-message {
+      color: #ff3333;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .appointment-container {
+        margin: 1rem;
+        padding: 1rem;
+      }
+
+      .slots-container {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      }
+    }
+
+    .booking-steps {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .step {
+      flex: 1;
+      text-align: center;
+      padding: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step.active {
+      color: #3c00a0;
+      font-weight: bold;
+    }
+
+    .step-number {
+      width: 30px;
+      height: 30px;
+      background: #f5f5f5;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.5rem;
+    }
+
+    .step.active .step-number {
+      background: #3c00a0;
+      color: white;
+    }
+
+    .progress-bar {
+      position: absolute;
+      top: 25px;
+      left: 0;
+      height: 2px;
+      background: #f5f5f5;
+      width: 100%;
+      z-index: 0;
+    }
+
+    .progress {
+      height: 100%;
+      background: #3c00a0;
+      width: 0;
+      transition: width 0.3s ease;
+    }
+
+    .location-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .location-group {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <script>
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+      window.location.href = 'Loginpage.html';
+    }
+  </script>
+</head>
+<body>
+  <div class="appointment-container">
+    <div class="appointment-header">
+      <h1>Book Your Appointment</h1>
+      <div class="booking-steps">
+        <div class="progress-bar">
+          <div class="progress" id="progress"></div>
+        </div>
+        <div class="step active" id="step1">
+          <div class="step-number">1</div>
+          <span>Service</span>
+        </div>
+        <div class="step" id="step2">
+          <div class="step-number">2</div>
+          <span>Location</span>
+        </div>
+        <div class="step" id="step3">
+          <div class="step-number">3</div>
+          <span>Provider</span>
+        </div>
+        <div class="step" id="step4">
+          <div class="step-number">4</div>
+          <span>Time</span>
+        </div>
+      </div>
+    </div>
+
+    <form id="appointmentForm">
+      <!-- Step 1: Service Selection -->
+      <div class="form-group" id="serviceStep">
+        <label for="serviceType">Select Service Type</label>
+        <select id="serviceType" required onchange="handleServiceChange()">
+          <option value="">Select Service</option>
+          <option value="salon">Salon</option>
+          <option value="clinic">Clinic</option>
+          <option value="hospital">Hospital</option>
+        </select>
+        <div class="error-message" id="serviceError"></div>
+      </div>
+
+      <!-- Step 2: Location Selection -->
+      <div class="form-group" id="locationStep" style="display: none;">
+        <div class="location-group">
+          <div>
+            <label for="state">Select State</label>
+            <select id="state" required onchange="loadCities()">
+              <option value="">Select State</option>
+            </select>
+          </div>
+          <div>
+            <label for="city">Select City</label>
+            <select id="city" required disabled onchange="loadProviders()">
+              <option value="">Select City</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Provider Selection -->
+      <div class="form-group" id="providerStep" style="display: none;">
+        <label for="provider">Select Provider</label>
+        <select id="provider" required disabled onchange="loadAvailability()">
+          <option value="">Select Provider</option>
+        </select>
+        <div id="providerDetails" style="margin-top: 1rem; display: none;">
+          <h4>Provider Details</h4>
+          <p id="providerAddress"></p>
+          <p id="providerRating"></p>
+        </div>
+      </div>
+
+      <!-- Step 4: Date and Time Selection -->
+      <div class="form-group" id="timeStep" style="display: none;">
+        <label for="appointmentDate">Select Date</label>
+        <input type="date" id="appointmentDate" required onchange="loadTimeSlots()">
+        
+        <label style="margin-top: 1rem;">Available Time Slots</label>
+        <div class="slots-container" id="slotsContainer"></div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="button-group" style="display: flex; gap: 1rem; margin-top: 2rem;">
+        <button type="button" id="prevBtn" onclick="prevStep()" style="display: none;">
+          Previous
+        </button>
+        <button type="button" id="nextBtn" onclick="nextStep()">
+          Next
+        </button>
+        <button type="submit" id="submitBtn" style="display: none;">
+          Confirm Booking
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Add these before closing body tag -->
+  <script src="js/timeSlots.js"></script>
+  <script src="js/timeslots_appoint.js"></script>
+
+  <!-- Add this script section before the closing body tag -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const appointmentForm = document.getElementById('appointmentForm');
+        
+        appointmentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const serviceType = document.getElementById('serviceType').value;
+            const provider = document.getElementById('provider').value;
+            const appointmentDate = document.getElementById('appointmentDate').value;
+            const selectedSlot = document.querySelector('.slot-button.selected');
+            
+            if (!serviceType || !provider || !appointmentDate || !selectedSlot) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            // Create appointment object
+            const appointment = {
+                service: serviceType,
+                provider: provider,
+                date: appointmentDate,
+                time: selectedSlot.textContent,
+                status: 'upcoming'
+            };
+
+            // Get existing appointments or initialize empty array
+            let appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+            
+            // Add new appointment
+            appointments.push(appointment);
+            
+            // Save back to localStorage
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+            
+            // Set booking confirmation flag
+            localStorage.setItem('showBookingConfirmation', 'true');
+            
+            // Redirect to dashboard
+            window.location.href = 'dashboard.html';
+        });
+
+        // Time slot selection handler
+        document.getElementById('slotsContainer').addEventListener('click', function(e) {
+            if (e.target.classList.contains('slot-button')) {
+                // Remove selected class from all slots
+                document.querySelectorAll('.slot-button').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                // Add selected class to clicked slot
+                e.target.classList.add('selected');
+            }
+        });
+    });
+
+    // Step navigation functions
+    let currentStep = 1;
+    const totalSteps = 4;
+
+    function updateProgress() {
+        const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+        document.getElementById('progress').style.width = `${progress}%`;
+        
+        // Update step indicators
+        for (let i = 1; i <= totalSteps; i++) {
+            const step = document.getElementById(`step${i}`);
+            if (i === currentStep) {
+                step.classList.add('active');
+            } else {
+                step.classList.remove('active');
+            }
+        }
+    }
+
+    function showStep(step) {
+        // Hide all steps
+        document.getElementById('serviceStep').style.display = 'none';
+        document.getElementById('locationStep').style.display = 'none';
+        document.getElementById('providerStep').style.display = 'none';
+        document.getElementById('timeStep').style.display = 'none';
+        
+        // Show current step
+        switch(step) {
+            case 1:
+                document.getElementById('serviceStep').style.display = 'block';
+                break;
+            case 2:
+                document.getElementById('locationStep').style.display = 'block';
+                break;
+            case 3:
+                document.getElementById('providerStep').style.display = 'block';
+                break;
+            case 4:
+                document.getElementById('timeStep').style.display = 'block';
+                break;
+        }
+        
+        // Update buttons
+        document.getElementById('prevBtn').style.display = step === 1 ? 'none' : 'block';
+        document.getElementById('nextBtn').style.display = step === totalSteps ? 'none' : 'block';
+        document.getElementById('submitBtn').style.display = step === totalSteps ? 'block' : 'none';
+        
+        updateProgress();
+    }
+
+    function nextStep() {
+        if (currentStep < totalSteps) {
+            currentStep++;
+            showStep(currentStep);
+        }
+    }
+
+    function prevStep() {
+        if (currentStep > 1) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    }
+
+    // Initialize first step
+    showStep(1);
+  </script>
+</body>
+</html>
